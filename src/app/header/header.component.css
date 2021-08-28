@@ -1,0 +1,25 @@
+#navbar{
+    /* background-color: #a6e8f6;
+    border-radius: 0.25rem; */
+    padding-left: 15px;
+
+}
+
+a{
+    color: blanchedalmond;
+}
+
+.navbar {
+    justify-content: normal;
+}
+
+.breadcrumb {
+    margin-left: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.breadcrumb a.active{
+text-decoration: none !important;
+cursor: auto !important;
+
+}

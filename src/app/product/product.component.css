@@ -1,0 +1,21 @@
+.btn-search {
+    color: #fff;
+    background-color: #18B4AE;
+}
+
+.Balance-show-check{
+    margin-top: 30px;
+}
+
+.row{
+    margin-top: 20px;
+}
+
+.btn-outline-secondary {
+    color: #d7d1d1;
+    border-color: #d7d1d1;
+}
+th,td{
+    text-align: center;
+}
+.required{color: red;}

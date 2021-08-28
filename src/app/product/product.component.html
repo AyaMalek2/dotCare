@@ -1,0 +1,162 @@
+<div class="container-fluid">
+    <section>
+        <h5>Basic Information</h5>
+        <hr>
+
+        <form [formGroup]="productForm" (ngSubmit)="onSearch()">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="wareHouse">wareHouse
+                            <b class="required">*</b>
+                        </label>
+                        <select class="form-control" id="wareHouse" name="wareHouse" formControlName="wareHouse"
+                            [(ngModel)]="productObj.wareHouse" placeholder="Select warehouse"
+                            [class.invalid]="productForm.controls.wareHouse.touched && productForm.controls.wareHouse.invalid">
+                            <option *ngFor="let w of wareHouse;let i=index" [value]="w.key">{{w.value}}</option>
+                        </select>
+                      
+                        <small *ngIf="productForm.controls.wareHouse.touched && productForm.controls.wareHouse.errors?.required" class="text-danger">
+                            required 
+                        </small>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="type">Type
+                            <b class="required">*</b>
+                        </label>
+                        <select class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
+                            id="type" name="type" formControlName="type" [(ngModel)]="productObj.type"
+                            placeholder="Select type">
+                            <option *ngFor="let t of warehouseTypes;let i=index" [value]="t.value">{{t.value}}</option>
+                        </select>
+                        <small *ngIf="productForm.controls.type.touched && productForm.controls.type.errors?.required" class="text-danger">
+                            required 
+                        </small>
+                    </div>
+                </div>
+
+                <div class="col-md-3 Balance-show-check">
+                    <div class="form-group">
+                        <input type="checkbox" id="showZeroBalance" name="showZeroBalance"
+                            formControlName="showZeroBalance"
+                            value="1"
+                            [(ngModel)]="productObj.showZeroBalance" 
+                            >&nbsp;
+                        <label for="showZeroBalance">show Zero Balance
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="productClassification">Product Classification</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input type="radio" [value]="0" id="productClassification" name="productClassification"
+                            [(ngModel)]="productObj.productClassification" (change)="selectSpecificProduct()"
+                            formControlName="productClassification"> All
+                        products
+                        <input type="radio" [value]="1" id="productClassification" name="productClassification"
+                            (change)="selectSpecificProduct()" [(ngModel)]="productObj.productClassification"
+                            formControlName="productClassification"> Specific
+                        product
+                    </div>
+                </div>
+
+                <div class="col-md-4" *ngIf="isSpecificProduct">
+                        <div class="form-group">
+                            <label for="product">product
+                                <b class="required">*</b>
+                            </label>
+                        <ng-multiselect-dropdown [settings]="multipleDropdownSettings" [data]="products"
+                            [(ngModel)]="selectedProducts" [ngModelOptions]="{standalone: true}"
+                           >
+                        </ng-multiselect-dropdown>
+                        <small *ngIf="productForm.controls.product.touched && productForm.controls.type.errors?.required" class="text-danger">
+                            required 
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-11">
+                    <button type="submit" class="btn btn-search pull-right" click="onSearch()" [disabled]="!enableSearch">Search</button>
+                </div>
+            </div>
+
+        </form>
+    </section>
+
+
+    <section>
+        <h5>Product Details</h5>
+        <hr>
+        <table class="table table-striped table-hover table-full-width">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>On-Hand</th>
+                    <th>Type</th>
+                </tr>
+            <tbody>
+
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" class="form-control input-text" aria-label="Recipient's username"
+                                aria-describedby="basic-addon2">
+                            <button class="btn btn-outline-secondary" type="button"><i
+                                    class="fa fa-search"></i></button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" class="form-control input-text" aria-label="Recipient's username"
+                                aria-describedby="basic-addon2">
+                            <button class="btn btn-outline-secondary" type="button"><i
+                                    class="fa fa-search"></i></button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" class="form-control input-text" aria-label="Recipient's username"
+                                aria-describedby="basic-addon2">
+                            <button class="btn btn-outline-secondary" type="button"><i
+                                    class="fa fa-search"></i></button>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr *ngFor="let pr of productSearchResult | paginate: paginateConfig;let i=index">
+                    <td>{{pr.productName}}</td>
+                    <td>{{pr.availableQuantity}}</td>
+                    <td>{{pr.productType}}</td>
+                </tr>
+
+                <tr *ngIf="productSearchResult.length<1">
+                    <td></td>
+                    <td>
+                    <img id="data-not-found-img" src="./../../assets/noDataFoundGreen.svg">
+
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+
+           
+        <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+        </table>
+
+    </section>
+</div>
